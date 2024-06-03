@@ -1,0 +1,98 @@
+<div class="container mx-auto p-4">
+  <h1 class="text-2xl font-bold mb-4">Budget Builder</h1>
+
+  <table class="w-full border-collapse">
+    <thead>
+      <tr>
+        <th class="border p-1 pl-2 min-w-[300px]"></th>
+        @for(month of months; track month) {
+        <th class="border p-1 pl-2 min-w-[200px]">{{ month }}</th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Income section -->
+      <tr>
+        <td class="border p-1 pl-2 text-lg font-semibold" [colSpan]="months.length + 1">Income</td>
+      </tr>
+      @for (incomeList of incomeCategories; track $index; let p = $index) {
+      @for (category of incomeList; track $index; let i = $index) {
+      <tr>
+        <td class="border p-1 pl-2 {{i === 0 && 'font-semibold'}}"
+          (contextmenu)="deleteCategory('income', p, i); $event.preventDefault()">
+          {{category.name}}
+        </td>
+        @for (amount of category.amounts; track $index; let j = $index) {
+        <td class="border">
+          <input #inputField type="number" [name]="category.amounts[j]" [(ngModel)]="category.amounts[j]"
+            (change)="onChange(inputField.value, i,j)" class="w-full p-1 pl-2"
+            (contextmenu)="applyToAll('income', i, j, p); $event.preventDefault()">
+        </td>
+        }
+      </tr>
+      }
+      <tr>
+        <td class="border p-1 pl-2" [colSpan]="months.length + 1">&nbsp;</td>
+      </tr>
+      }
+      <tr>
+        <td class="border p-1 pl-2 font-semibold">Income Total</td>
+        @for(totalItem of totalIncomes; track $index) {
+        <td class="border p-1 pl-2">{{ totalItem }}</td>
+        }
+      </tr>
+      <tr>
+        <td class="border p-1 pl-2" [colSpan]="months.length + 1">&nbsp;</td>
+      </tr>
+
+      <!-- Expenses section -->
+      <tr>
+        <td class="border p-1 pl-2 text-lg font-semibold" [colSpan]="months.length + 1">Expenses</td>
+      </tr>
+      @for (expenseList of expenseCategories; track $index; let p = $index) {
+      @for (category of expenseList; track $index; let i = $index) {
+      <tr>
+        <td class="border p-1 pl-2 {{i === 0 && 'font-semibold'}}"
+          (contextmenu)="deleteCategory('expense', p, i); $event.preventDefault()">
+          {{category.name}}
+        </td>
+        @for (amount of category.amounts; track $index; let j = $index) {
+        <td class="border">
+          <input #inputField type="number" [name]="category.amounts[j]" [(ngModel)]="category.amounts[j]"
+            (change)="onChange(inputField.value, i,j)" class="w-full p-1 pl-2"
+            (contextmenu)="applyToAll('expense',i, j, p); $event.preventDefault()">
+        </td>
+        }
+      </tr>
+      }
+      <tr>
+        <td class="border p-1 pl-2" [colSpan]="months.length + 1">&nbsp;</td>
+      </tr>
+      }
+      <tr>
+        <td class="border p-1 pl-2 font-semibold">Total Expenses</td>
+        @for(totalItem of totalExpenses; track $index) {
+        <td class="border p-1 pl-2">{{ totalItem }}</td>
+        }
+      </tr>
+      <tr>
+        <td class="border p-1 pl-2 font-semibold">Profit / Loss</td>
+       @for(item of profitOrLoss; track $index) {
+        <td class="border p-1 pl-2">{{ item }}</td>
+        }
+      </tr>
+      <tr>
+        <td class="border p-1 pl-2 font-semibold">Opening Balance</td>
+        @for(item of openingBalances; track $index) {
+          <td class="border p-1 pl-2">{{ item }}</td>
+          }
+      </tr>
+      <tr>
+        <td class="border p-1 pl-2 font-semibold">Closing Balance</td>
+        @for(item of closingBalances; track $index) {
+          <td class="border p-1 pl-2">{{ item }}</td>
+          }
+      </tr>
+    </tbody>
+  </table>
+</div>
